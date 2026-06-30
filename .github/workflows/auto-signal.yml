@@ -24,9 +24,6 @@ jobs:
 
       - name: Install and run
         run: |
-          ls -la
-          cd github-actions || cd liquid-guide-auto-signal || cd .
-          ls -la
           npm install
           node scripts/auto-signal.cjs
         env:
