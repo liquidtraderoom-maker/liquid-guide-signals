@@ -1,0 +1,8 @@
+{
+  "name": "liquid-guide-auto-signal",
+  "version": "1.0.0",
+  "description": "Auto signal generator for Liquid Guide",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
