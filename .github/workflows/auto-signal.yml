@@ -14,23 +14,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Show repo structure
+        run: ls -la && ls -la */ 2>/dev/null || true
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Find and run signal script
+      - name: Install and run
         run: |
-          echo "📂 Repo structure:"
-          find . -name "*.cjs" -o -name "package.json" | grep -v node_modules | grep -v ".git"
-          PKG=$(find . -name "package.json" -not -path "*/node_modules/*" -not -path "*/.git/*" | head -1)
-          DIR=$(dirname "$PKG")
-          echo "📦 Found package.json in: $DIR"
-          cd "$DIR"
+          ls -la
+          cd github-actions || cd liquid-guide-auto-signal || cd .
+          ls -la
           npm install
-          SCRIPT=$(find . -name "auto-signal.cjs" | head -1)
-          echo "🚀 Running: $SCRIPT"
-          node "$SCRIPT"
+          node scripts/auto-signal.cjs
         env:
           SUPABASE_URL:    ${{ secrets.SUPABASE_URL }}
           SERVICE_KEY:     ${{ secrets.SERVICE_KEY }}
