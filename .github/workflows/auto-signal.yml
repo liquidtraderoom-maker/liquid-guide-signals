@@ -21,9 +21,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: github-actions
 
       - name: Run Auto Signal
         run: node scripts/auto-signal.cjs
+        working-directory: github-actions
         env:
           SUPABASE_URL:    ${{ secrets.SUPABASE_URL }}
           SERVICE_KEY:     ${{ secrets.SERVICE_KEY }}
