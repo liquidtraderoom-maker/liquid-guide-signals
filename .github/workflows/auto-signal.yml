@@ -1,0 +1,33 @@
+name: Liquid Guide Auto Signal
+
+on:
+  schedule:
+    - cron: '0 13 * * 1-5'
+    - cron: '0 17 * * 1-5'
+    - cron: '0 21 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  post-signal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Auto Signal
+        run: node scripts/auto-signal.cjs
+        env:
+          SUPABASE_URL:    ${{ secrets.SUPABASE_URL }}
+          SERVICE_KEY:     ${{ secrets.SERVICE_KEY }}
+          ANTHROPIC_KEY:   ${{ secrets.ANTHROPIC_KEY }}
+          METALS_KEY:      ${{ secrets.METALS_KEY }}
+          ONESIGNAL_APP:   ${{ secrets.ONESIGNAL_APP }}
+          ONESIGNAL_KEY:   ${{ secrets.ONESIGNAL_KEY }}
