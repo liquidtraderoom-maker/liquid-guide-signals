@@ -19,13 +19,18 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
-        working-directory: github-actions
-
-      - name: Run Auto Signal
-        run: node scripts/auto-signal.cjs
-        working-directory: github-actions
+      - name: Find and run signal script
+        run: |
+          echo "📂 Repo structure:"
+          find . -name "*.cjs" -o -name "package.json" | grep -v node_modules | grep -v ".git"
+          PKG=$(find . -name "package.json" -not -path "*/node_modules/*" -not -path "*/.git/*" | head -1)
+          DIR=$(dirname "$PKG")
+          echo "📦 Found package.json in: $DIR"
+          cd "$DIR"
+          npm install
+          SCRIPT=$(find . -name "auto-signal.cjs" | head -1)
+          echo "🚀 Running: $SCRIPT"
+          node "$SCRIPT"
         env:
           SUPABASE_URL:    ${{ secrets.SUPABASE_URL }}
           SERVICE_KEY:     ${{ secrets.SERVICE_KEY }}
